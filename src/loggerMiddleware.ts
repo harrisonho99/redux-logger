@@ -19,41 +19,33 @@ function coloredLogger(
 }
 
 //logger middleware
-const loggerMiddleware = (storeAPI: MiddlewareAPI<any>) => {
-  return function wrapperDispatch(next: any) {
-    return function handleActionDispatching(action: any) {
-      try {
-        coloredLogger(
-          '<-prev state->',
-          '#f73378',
-          2,
-          'white',
-          12,
-          storeAPI.getState()
-        );
-        // pipe action
-        next(action);
-        coloredLogger(' action: ' + action.type, undefined, 0, '#304ffe', 12);
-        //
-        coloredLogger(
-          '<-next state->',
-          '#14a37f',
-          2,
-          'white',
-          12,
-          storeAPI.getState()
-        );
-        coloredLogger(
-          '------------------------',
-          undefined,
-          undefined,
-          'green'
-        );
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-  };
+const loggerMiddleware = (storeAPI: MiddlewareAPI<any>) => (next: any) => (
+  action: any
+) => {
+  try {
+    coloredLogger(
+      '<-prev state->',
+      '#f73378',
+      2,
+      'white',
+      12,
+      storeAPI.getState()
+    );
+    // pipe action
+    next(action);
+    coloredLogger(' action: ' + action.type, undefined, 0, '#304ffe', 12);
+    coloredLogger(
+      '<-next state->',
+      '#14a37f',
+      2,
+      'white',
+      12,
+      storeAPI.getState()
+    );
+    coloredLogger('------------------------', undefined, undefined, 'green');
+  } catch (error) {
+    console.error(error.message);
+  }
 };
 
 export default loggerMiddleware;

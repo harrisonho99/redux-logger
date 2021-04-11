@@ -37,7 +37,7 @@ function reducer(
 }
 
 //store
-const store = createStore(reducer, applyMiddleware(thunk, loggerMiddleware));
+const store = createStore(reducer, applyMiddleware(loggerMiddleware, thunk));
 // action creators Async
 const increamentActionAsync = () => (dispatch: Dispatch) => {
   setTimeout(dispatch, 1000, { type: 'INCREAMENT' });
